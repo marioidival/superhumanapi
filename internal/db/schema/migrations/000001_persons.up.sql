@@ -28,13 +28,17 @@ begin
 
     if not found then
         insert into persons_ranking(person_id, search_count)
-        values (pid, 1);
-        return 1;
+        values (pid, 1)
+        on conflict (person_id) do update
+        set search_count = persons_ranking.search_count + 1
+        returning search_count into current_search_count;
     else
         update persons_ranking
         set search_count = current_search_count + 1
-        where person_id = pid;
-        return current_search_count + 1;
+        where person_id = pid
+        returning search_count into current_search_count;
     end if;
+
+    return current_search_count;
 end;
 $$ language plpgsql;

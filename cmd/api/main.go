@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	_ "net/http/pprof"
 	"os"
 	"os/signal"
 	"syscall"
@@ -43,6 +44,7 @@ func run() error {
 
 	ctx := context.Background()
 	e := echo.New()
+
 	dbc, err := database.Open(ctx, databaseURL)
 	if err != nil {
 		return err
@@ -50,10 +52,9 @@ func run() error {
 	defer dbc.Close()
 
 	handlers := handlers.NewServer(dbc, clearbitAPIKey)
-	
-
 	e.GET("/lookup", handlers.EmailLookupHandler)
 	e.GET("/popularity", handlers.PopularityHandler)
+	e.GET("/debug/*", echo.WrapHandler(http.DefaultServeMux))
 
 	server := &http.Server{
 		Addr:    fmt.Sprintf(":%d", appPort),
@@ -66,7 +67,7 @@ func run() error {
 
 	serverErrors := make(chan error, 1)
 	go func() {
-		log.Println(ctx, "startup job processing system api", "PORT", server.Addr)
+		log.Println("startup job processing system api", "PORT", server.Addr)
 		serverErrors <- server.ListenAndServe()
 	}()
 
