@@ -13,7 +13,7 @@ This project is a backend service for the Superhuman application, designed to ma
 1. **Clone the repository**
 
     ```sh
-    git clone https://yourrepository.com/superhuman-api.git
+    git clone https://github.com/marioidival/superhumanapi.git
     cd superhuman-api
     ```
 

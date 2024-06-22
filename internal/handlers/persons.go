@@ -61,7 +61,6 @@ func (s *Server) EmailLookupHandler(c echo.Context) error {
 	}
 
 	log.Println("getting person from clearbit")
-
 	profile, err := s.clearbitClient.GetPerson(email)
 	if err != nil {
 		var statusCode int = http.StatusInternalServerError
@@ -121,5 +120,5 @@ func (s *Server) PopularityHandler(c echo.Context) error {
 			Count: p.SearchCount,
 		})
 	}
-	return c.JSON(200, response)
+	return c.JSON(http.StatusOK, response)
 }
