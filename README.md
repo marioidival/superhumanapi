@@ -14,7 +14,7 @@ This project is a backend service for the Superhuman application, designed to ma
 
     ```sh
     git clone https://github.com/marioidival/superhumanapi.git
-    cd superhuman-api
+    cd superhumanapi
     ```
 
 2. **Start the PostgreSQL database**
@@ -22,7 +22,7 @@ This project is a backend service for the Superhuman application, designed to ma
     Use Docker Compose to start a local PostgreSQL instance:
 
     ```sh
-    docker-compose -f infrastructure/local/docker-compose.yml up -d postgres
+    docker-compose -p superhuman -f docker-compose.yml up -d postgres
     ```
 
 3. **Run database migrations**
@@ -63,7 +63,7 @@ This project is a backend service for the Superhuman application, designed to ma
     Start the server:
 
     ```sh
-    docker-compose -f infrastructure/local/docker-compose.yml up app
+    docker-compose -p superhuman -f docker-compose.yml up app
     ```
 
 ## Development
