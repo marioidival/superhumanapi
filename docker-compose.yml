@@ -1,0 +1,31 @@
+services:
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - APP_PORT=3000
+      - DATABASE_URL=postgres://superhuman:superhuman@postgres:5432/superhumanapi?sslmode=disable
+      - CLEARBIT_API_KEY=
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:15-alpine
+    hostname: postgres
+    environment:
+      - PGPORT=5432
+      - PGUSER=postgres
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_USER=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./infrastructure/scripts/sql:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5

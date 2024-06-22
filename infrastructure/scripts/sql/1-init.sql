@@ -1,0 +1,3 @@
+CREATE DATABASE superhumanapi;
+CREATE USER superhuman WITH ENCRYPTED PASSWORD 'superhuman';
+ALTER USER superhuman SUPERUSER;
